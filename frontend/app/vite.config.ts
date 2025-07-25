@@ -13,6 +13,7 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     sourcemap: false,
+    chunkSizeWarningLimit: 1000, // Set chunk size warning limit to 1000 kB
   },
   server: {
     port: 8080,
