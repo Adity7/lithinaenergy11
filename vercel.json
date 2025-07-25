@@ -9,7 +9,8 @@
       "src": "frontend/app/package.json",
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "dist"
+        "distDir": "dist",
+        "installCommand": "cd frontend/app && chmod +x vercel-build.sh && ./vercel-build.sh"
       }
     }
   ],
