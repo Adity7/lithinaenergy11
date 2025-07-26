@@ -2,33 +2,31 @@
   "version": 2,
   "builds": [
     {
-      "src": "bms_project/manage.py",
-      "use": "@vercel/python",
-      "config": {
-        "maxLambdaSize": "15mb",
-        "runtime": "python3.9"
-      }
+      "src": "bms_project/wsgi.py",
+      "use": "@vercel/python"
     },
     {
       "src": "frontend/app/package.json",
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "dist"
+        "distDir": "dist",
+        "installCommand": "cd frontend/app && npm install",
+        "buildCommand": "cd frontend/app && npm run build"
       }
     }
   ],
   "routes": [
     {
-      "src": "/api/(.*)",
-      "dest": "bms_project/manage.py"
+      "src": "/api/(?<path>.*)",
+      "dest": "bms_project/wsgi.py"
     },
     {
-      "src": "/admin/(.*)",
-      "dest": "bms_project/manage.py"
+      "src": "/admin/(?<path>.*)",
+      "dest": "bms_project/wsgi.py"
     },
     {
-      "src": "/oauth/(.*)",
-      "dest": "bms_project/manage.py"
+      "src": "/oauth/(?<path>.*)",
+      "dest": "bms_project/wsgi.py"
     },
     {
       "src": "/static/(.*)",
@@ -38,6 +36,9 @@
       "src": "/(.*)",
       "dest": "frontend/app/dist/index.html"
     }
+  ],
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
   ],
   "env": {
     "DJANGO_SETTINGS_MODULE": "bms_project.settings"
